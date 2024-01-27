@@ -18,10 +18,10 @@ services:
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
       - BACKEND_URL=${BACKEND_URL}
       - FRONTEND_URL=${FRONTEND_URL}
-      - PROXY_PORT=${PROXY_PORT:-8080}
+      - PROXY_PORT=${PROXY_PORT}
       - CHROME_ARGS=--no-sandbox --disable-setuid-sandbox
     ports:
-      - ${BACKEND_PORT:-8080}:3000
+      - ${BACKEND_PORT}:3000
     volumes:
       - ./backend/public/:/usr/src/app/public/
       - ./backend/.wwebjs_auth/:/usr/src/app/.wwebjs_auth/
