@@ -1,0 +1,36 @@
+name: GitHub CI Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Deploy
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rlgoDzvc -i"
+          SOURCE: "."
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          TARGET: "/app/"
+          SCRIPT_BEFORE: |
+            cd /app/
+            echo "====================== INSTALL DEPS"
+            # apt update && apt install -y docker.io docker-compose rsync
+            echo "====================== STOP DOCKER"
+            if [ -f docker-compose.yml ]; then docker compose down; fi
+            echo "====================== SET ENVS"
+            echo "${{ secrets.ENV_FILE }}" > .env
+          SCRIPT_AFTER: |
+            cd /app/
+            echo "====================== START DOCKER"
+            docker compose up -d
+            echo $RSYNC_STDOUT
