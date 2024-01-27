@@ -26,11 +26,11 @@ jobs:
             echo "====================== INSTALL DEPS"
             # apt update && apt install -y docker.io docker-compose rsync
             echo "====================== STOP DOCKER"
-            if [ -f docker-compose.yml ]; then docker compose down; fi
+            if [ -f docker-compose.yml ]; then docker compose -f docker-compose.yml down; fi
             echo "====================== SET ENVS"
             echo "${{ secrets.ENV_FILE }}" > .env
           SCRIPT_AFTER: |
             cd /whaticket/
             echo "====================== START DOCKER"
-            docker compose up -d
+            docker compose -f docker-compose.yml up -d
             echo $RSYNC_STDOUT
