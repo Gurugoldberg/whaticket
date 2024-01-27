@@ -16,7 +16,7 @@ services:
       - DB_NAME=${MYSQL_DATABASE}
       - JWT_SECRET=${JWT_SECRET}
       - JWT_REFRESH_SECRET=${JWT_REFRESH_SECRET}
-      - BACKEND_URL=${BACKEND_URL
+      - BACKEND_URL=${BACKEND_URL}
       - FRONTEND_URL=${FRONTEND_URL}
       - PROXY_PORT=${PROXY_PORT:-8080}
       - CHROME_ARGS=--no-sandbox --disable-setuid-sandbox
@@ -25,8 +25,6 @@ services:
     volumes:
       - ./backend/public/:/usr/src/app/public/
       - ./backend/.wwebjs_auth/:/usr/src/app/.wwebjs_auth/
-    networks:
-      - whaticket
 
   frontend:
     ports:
@@ -43,6 +41,3 @@ services:
     volumes:
       - ./ssl/certs/:/etc/nginx/ssl/
       - ./ssl/www/:/var/www/letsencrypt/
-    networks:
-      - whaticket
-
